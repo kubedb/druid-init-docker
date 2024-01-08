@@ -4,13 +4,12 @@ set -x
 # Set the directory where Druid configuration files are located
 druid_config_dir="/opt/druid/conf"
 
-# Temporary  directory for merging configuration files
+# Temporary directory for merging configuration files, does not have any actual affect
 druid_config_dir_temp="/tmp/config/default-config/*"
 
 # Set the directory where Druid Operator Configuration files are located
 druid_operator_config_common="/tmp/config/operator-config/common.runtime.properties"
 druid_operator_config_coordinators="/tmp/config/operator-config/coordinators.properties"
-druid_operator_config_overlords="/tmp/config/operator-config/overlords.properties"
 druid_operator_config_historicals="/tmp/config/operator-config/historicals.properties"
 druid_operator_config_middleManagers="/tmp/config/operator-config/middleManagers.properties"
 druid_operator_config_brokers="/tmp/config/operator-config/brokers.properties"
@@ -28,8 +27,7 @@ druid_custom_config_routers="/tmp/config/custom-config/routers.properties"
 
 # Set the directory where Druid Default Configuration files are located
 druid_default_config_common="/tmp/config/default-config/druid/cluster/_common/common.runtime.properties"
-druid_default_config_coordinators="/tmp/config/default-config/druid/cluster/master/coordinator-overlord/runtime.properties"
-druid_default_config_overlords="/tmp/config/default-config/druid/cluster/master/overlord/runtime.properties"
+druid_default_config_coordinators_overlords="/tmp/config/default-config/druid/cluster/master/coordinator-overlord/runtime.properties"
 druid_default_config_historicals="/tmp/config/default-config/druid/cluster/data/historical/runtime.properties"
 druid_default_config_middleManagers="/tmp/config/default-config/druid/cluster/data/middleManager/runtime.properties"
 druid_default_config_brokers="/tmp/config/default-config/druid/cluster/query/broker/runtime.properties"
@@ -54,17 +52,17 @@ function remove_comments_and_sort() {
 # Merge operator config with default config and place in the default config
 function merge_default_and_operator_config() {
   touch $druid_temp_merged_config
+  echo "" > $druid_default_config_coordinators_overlords
+
   /tmp/scripts/merge_config_properties.sh $druid_operator_config_common $druid_default_config_common $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_operator_config_coordinators $druid_default_config_coordinators $druid_temp_merged_config
-#  /tmp/scripts/merge_config_properties.sh $druid_operator_config_overlords $druid_default_config_overlords $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_operator_config_coordinators $druid_default_config_coordinators_overlords $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_operator_config_historicals $druid_default_config_historicals $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_operator_config_middleManagers $druid_default_config_middleManagers $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_operator_config_brokers $druid_default_config_brokers $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_operator_config_routers $druid_default_config_routers $druid_temp_merged_config
 
   remove_comments_and_sort $druid_default_config_common
-  remove_comments_and_sort $druid_default_config_coordinators
-#  remove_comments_and_sort $druid_default_config_overlords
+  remove_comments_and_sort $druid_default_config_coordinators_overlords
   remove_comments_and_sort $druid_default_config_historicals
   remove_comments_and_sort $druid_default_config_middleManagers
   remove_comments_and_sort $druid_default_config_brokers
@@ -75,8 +73,8 @@ merge_default_and_operator_config
 # Merge custom config with default config and place in the default config
 function merge_default_and_custom_config() {
   /tmp/scripts/merge_config_properties.sh $druid_custom_config_common $druid_default_config_common $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_custom_config_coordinators $druid_default_config_coordinators $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_custom_config_overlords $druid_default_config_overlords $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_custom_config_coordinators $druid_default_config_coordinators_overlords $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_custom_config_overlords $druid_default_config_coordinators_overlords $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_custom_config_historicals $druid_default_config_historicals $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_custom_config_middleManagers $druid_default_config_middleManagers $druid_temp_merged_config
   /tmp/scripts/merge_config_properties.sh $druid_custom_config_brokers $druid_default_config_brokers $druid_temp_merged_config
@@ -84,8 +82,7 @@ function merge_default_and_custom_config() {
 
 
   remove_comments_and_sort $druid_default_config_common
-  remove_comments_and_sort $druid_default_config_coordinators
-#  remove_comments_and_sort $druid_default_config_overlords
+  remove_comments_and_sort $druid_default_config_coordinators_overlords
   remove_comments_and_sort $druid_default_config_historicals
   remove_comments_and_sort $druid_default_config_middleManagers
   remove_comments_and_sort $druid_default_config_brokers
@@ -97,5 +94,3 @@ function place_config_files() {
   cp -r $druid_config_dir_temp $druid_config_dir
 }
 place_config_files
-
-#sleep 1000
