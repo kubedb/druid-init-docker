@@ -13,4 +13,11 @@ RUN wget -O /tmp/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.j
 RUN ["chmod", "+x", "/tmp/scripts/entrypoint.sh"]
 RUN ["chmod", "+x", "/tmp/scripts/merge_config_properties.sh"]
 
+RUN adduser -u 1000 -g 1000 -D druid
+
+RUN mkdir -p /opt/druid/conf
+RUN chown -R druid /opt/druid/conf
+RUN chown -R druid /tmp
+USER 1000
+
 ENTRYPOINT ["/tmp/scripts/entrypoint.sh"]
