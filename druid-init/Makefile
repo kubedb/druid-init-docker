@@ -7,7 +7,7 @@ TAG        ?= $(shell git describe --exact-match --abbrev=0 2>/dev/null || echo 
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm64
 PLATFORM         ?= linux/$(subst x86_64,amd64,$(subst aarch64,arm64,$(shell uname -m)))
-DRUID_VERSION    ?= 28.0.0
+DRUID_VERSION    ?= 28.0.1
 VERSION          = $(TAG)_$(subst /,_,$(PLATFORM))
 
 BUILD_DIRS := bin
