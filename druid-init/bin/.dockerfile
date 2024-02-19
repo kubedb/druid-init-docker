@@ -13,7 +13,6 @@ RUN wget -O /tmp/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.j
 RUN ["chmod", "+x", "/tmp/scripts/entrypoint.sh"]
 RUN ["chmod", "+x", "/tmp/scripts/merge_config_properties.sh"]
 
-#RUN adduser -D -u 1000 druid
 RUN adduser -u 1000 -g 1000 -D druid
 
 RUN mkdir -p /opt/druid/conf
