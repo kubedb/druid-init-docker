@@ -18,7 +18,9 @@ druid_temp_merged_config="/tmp/config/temp-config.properties"
 
 druid_operator_jvm_config_coordinators="/tmp/config/operator-config/coordinators.jvm.config"
 druid_operator_jvm_config_historicals="/tmp/config/operator-config/historicals.jvm.config"
+druid_operator_jvm_config_middleManagers="/tmp/config/operator-config/middleManagers.jvm.config"
 druid_operator_jvm_config_brokers="/tmp/config/operator-config/brokers.jvm.config"
+druid_operator_jvm_config_routers="/tmp/config/operator-config/routers.jvm.config"
 
 # Set the directory where Druid Custom Configuration files are located
 druid_custom_config_common="/tmp/config/custom-config/common.runtime.properties"
@@ -108,7 +110,9 @@ merge_default_and_custom_config
 function update_jvm_config() {
   rm -rf $druid_default_jvm_config_coordinators_overlords
   rm -rf $druid_default_jvm_config_historicals
+  rm -rf $druid_default_jvm_config_middleManagers
   rm -rf $druid_default_jvm_config_brokers
+  rm -rf $druid_default_jvm_config_routers
 
   if [ -f "$druid_custom_jvm_config_coordinators" ]; then
     cp $druid_custom_jvm_config_coordinators $druid_default_jvm_config_coordinators_overlords
@@ -129,13 +133,15 @@ function update_jvm_config() {
   fi
 
   if [ -f "$druid_custom_jvm_config_middleManagers" ]; then
-    rm -rf $druid_default_jvm_config_middleManagers
     cp $druid_custom_jvm_config_middleManagers $druid_default_jvm_config_middleManagers
+  else
+    cp $druid_operator_jvm_config_middleManagers $druid_default_jvm_config_middleManagers
   fi
 
   if [ -f "$druid_custom_jvm_config_routers" ]; then
-    rm -rf $druid_default_jvm_config_routers
     cp $druid_custom_jvm_config_routers $druid_default_jvm_config_routers
+  else
+    cp $druid_operator_jvm_config_routers $druid_default_jvm_config_routers
   fi
 }
 update_jvm_config
