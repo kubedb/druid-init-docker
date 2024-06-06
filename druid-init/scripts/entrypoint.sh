@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -x
+set -eo pipefail
+
 # Set the directory where Druid configuration files are located
 druid_config_dir="/opt/druid/conf"
 
@@ -53,6 +55,9 @@ druid_default_jvm_config_routers="/tmp/config/default-config/druid/cluster/query
 
 druid_exporter_config_file_source="/tmp/scripts/metrics.json"
 druid_exporter_config_file_destination="/opt/druid/conf/metrics.json"
+
+druid_log_config_file_source="/tmp/scripts/log4j2.xml"
+druid_log_config_file_destination="/tmp/config/default-config/druid/cluster/_common/log4j2.xml"
 
 # Copies the files necessary for using 'mysql' as metadata storage in the apt directory
 function configure_mysql_metadata_storage() {
@@ -143,11 +148,17 @@ function update_jvm_config() {
 
   if [ -f "$druid_custom_jvm_config_routers" ]; then
     cp $druid_custom_jvm_config_routers $druid_default_jvm_config_routers
-  else
+  elif [ -f "$druid_custom_jvm_config_routers" ]; then
     cp $druid_operator_jvm_config_routers $druid_default_jvm_config_routers
   fi
 }
 update_jvm_config
+
+function update_log_config() {
+  rm -rf $druid_log_config_file_destination
+  cp $druid_log_config_file_source $druid_log_config_file_destination
+}
+update_log_config
 
 function place_config_files() {
   cp -r $druid_config_dir_temp $druid_config_dir
@@ -158,3 +169,9 @@ function create_custom_exporter_file() {
   cp $druid_exporter_config_file_source $druid_exporter_config_file_destination
 }
 create_custom_exporter_file
+
+function configure_tls() {
+  if "$DRUID_METADATA_TLS_ENABLE" = "true"; then
+    /tmp/scripts/configure_tls.sh
+  fi
+}
