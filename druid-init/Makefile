@@ -9,6 +9,8 @@ DOCKER_PLATFORMS := linux/amd64 linux/arm64
 PLATFORM         ?= linux/$(subst x86_64,amd64,$(subst aarch64,arm64,$(shell uname -m)))
 DRUID_VERSION    ?= 28.0.1
 VERSION          = $(TAG)_$(subst /,_,$(PLATFORM))
+MYSQL_CONNECTOR_VERSION ?= 5.1.49
+MYSQL_CONNECTOR_URL ?= https://repo1.maven.org/maven2/mysql/mysql-connector-java/$(MYSQL_CONNECTOR_VERSION)/mysql-connector-java-$(MYSQL_CONNECTOR_VERSION).jar
 
 BUILD_DIRS := bin
 
@@ -34,7 +36,9 @@ container:
 	@echo "container: $(IMAGE):$(VERSION)"
 	@rm -rf bin/.dockerfile;                                              \
 	sed                                                                   \
-	    -e 's|{DRUID_VERSION}|$(DRUID_VERSION)|g'       \
+	    -e 's|{DRUID_VERSION}|$(DRUID_VERSION)|g'       				  \
+	    -e 's|{MYSQL_CONNECTOR_URL}|$(MYSQL_CONNECTOR_URL)|g'             \
+	    -e 's|{MYSQL_CONNECTOR_VERSION}|$(MYSQL_CONNECTOR_VERSION)|g'     \
 	    Dockerfile > bin/.dockerfile;                                     \
 	# ref: https://superuser.com/a/842705
 	tar -czh . | docker buildx build --platform $(PLATFORM) --load --pull -t $(IMAGE):$(VERSION) -f bin/.dockerfile -
