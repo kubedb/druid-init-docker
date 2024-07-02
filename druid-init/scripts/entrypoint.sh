@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -x
+set -eo pipefail
+
 # Set the directory where Druid configuration files are located
 druid_config_dir="/opt/druid/conf"
 
@@ -158,3 +160,9 @@ function create_custom_exporter_file() {
   cp $druid_exporter_config_file_source $druid_exporter_config_file_destination
 }
 create_custom_exporter_file
+
+function configure_tls() {
+  if "$DRUID_METADATA_TLS_ENABLE" = "true"; then
+    /tmp/scripts/configure_tls.sh
+  fi
+}
