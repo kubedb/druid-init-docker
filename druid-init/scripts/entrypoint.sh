@@ -145,7 +145,7 @@ function update_jvm_config() {
 
   if [ -f "$druid_custom_jvm_config_routers" ]; then
     cp $druid_custom_jvm_config_routers $druid_default_jvm_config_routers
-  else
+  elif [ -f "$druid_operator_jvm_config_routers" ]; then
     cp $druid_operator_jvm_config_routers $druid_default_jvm_config_routers
   fi
 }
