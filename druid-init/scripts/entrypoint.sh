@@ -59,7 +59,7 @@ druid_exporter_config_file_destination="/opt/druid/conf/metrics.json"
 # Copies the files necessary for using 'mysql' as metadata storage in the apt directory
 function configure_mysql_metadata_storage() {
   cp -r /tmp/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar /opt/druid/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar
-  cp -r /tmp/extensions/mysql-metadata-storage/mysql-metadata-storage-28.0.1.jar /opt/druid/extensions/mysql-metadata-storage/mysql-metadata-storage-28.0.1.jar
+  cp -r /tmp/extensions/mysql-metadata-storage/mysql-metadata-storage-30.0.0.jar /opt/druid/extensions/mysql-metadata-storage/mysql-metadata-storage-30.0.0.jar
 }
 configure_mysql_metadata_storage
 
