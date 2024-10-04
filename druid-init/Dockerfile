@@ -16,8 +16,7 @@ RUN ["chmod", "+x", "/tmp/scripts/configure_tls.sh"]
 
 RUN adduser -u 1000 -g 1000 -D druid
 
-RUN mkdir -p /opt/druid/conf \
-    && mkdir -p /tmp/metadata
+RUN mkdir -p /opt/druid/conf
 
 RUN chown -R druid /opt/druid/conf
 RUN chown -R druid /tmp
