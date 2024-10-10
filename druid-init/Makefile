@@ -38,6 +38,7 @@ container:
 	@rm -rf bin/.dockerfile;                                              \
 	sed                                                                   \
 	    -e 's|{DRUID_VERSION}|$(DRUID_VERSION)|g'       				  \
+	    -e 's|{ALPINE_VERSION}|$(ALPINE_VERSION)|g'       				  \
 	    -e 's|{MYSQL_CONNECTOR_URL}|$(MYSQL_CONNECTOR_URL)|g'             \
 	    -e 's|{MYSQL_CONNECTOR_VERSION}|$(MYSQL_CONNECTOR_VERSION)|g'     \
 	    Dockerfile > bin/.dockerfile;                                     \
