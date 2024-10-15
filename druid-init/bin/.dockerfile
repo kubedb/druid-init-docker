@@ -1,13 +1,13 @@
 FROM apache/druid:28.0.1 AS base
 
-FROM alpine
+FROM alpine:3.20.3
 
 COPY --from=base /opt/druid/extensions/mysql-metadata-storage/mysql-metadata-storage-28.0.1.jar /tmp/extensions/mysql-metadata-storage/mysql-metadata-storage-28.0.1.jar
 COPY --from=base /opt/druid/conf /tmp/config/default-config
 COPY ./scripts /tmp/scripts
 
+RUN apk update && apk upgrade
 RUN apk --no-cache add bash openjdk11-jre openssl
-
 RUN wget -O /tmp/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar
 
 RUN ["chmod", "+x", "/tmp/scripts/entrypoint.sh"]
@@ -16,8 +16,7 @@ RUN ["chmod", "+x", "/tmp/scripts/configure_tls.sh"]
 
 RUN adduser -u 1000 -g 1000 -D druid
 
-RUN mkdir -p /opt/druid/conf \
-    && mkdir -p /tmp/metadata
+RUN mkdir -p /opt/druid/conf
 
 RUN chown -R druid /opt/druid/conf
 RUN chown -R druid /tmp

@@ -162,7 +162,8 @@ function create_custom_exporter_file() {
 create_custom_exporter_file
 
 function configure_tls() {
-  if "$DRUID_METADATA_TLS_ENABLE" = "true"; then
+  if [ "$DRUID_METADATA_TLS_ENABLE" = "true" ]; then
     /tmp/scripts/configure_tls.sh
   fi
 }
+configure_tls
