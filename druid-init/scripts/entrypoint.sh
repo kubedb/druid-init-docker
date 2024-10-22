@@ -56,6 +56,10 @@ druid_default_jvm_config_routers="/tmp/config/default-config/druid/cluster/query
 druid_exporter_config_file_source="/tmp/scripts/metrics.json"
 druid_exporter_config_file_destination="/opt/druid/conf/metrics.json"
 
+druid_operator_config_log4j2="/tmp/config/operator-config/log4j2.xml"
+druid_default_config_log4j2="/tmp/config/default-config/druid/cluster/_common/log4j2.xml"
+
+
 # Copies the files necessary for using 'mysql' as metadata storage in the apt directory
 function configure_mysql_metadata_storage() {
   cp -r /tmp/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar /opt/druid/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar
@@ -150,6 +154,12 @@ function update_jvm_config() {
   fi
 }
 update_jvm_config
+
+function configure_logs() {
+  rm -rf $druid_default_config_log4j2
+  cp $druid_operator_config_log4j2 $druid_default_config_log4j2
+}
+configure_logs
 
 function place_config_files() {
   cp -r $druid_config_dir_temp $druid_config_dir
