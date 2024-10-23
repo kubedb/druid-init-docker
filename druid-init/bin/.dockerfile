@@ -1,6 +1,6 @@
 FROM apache/druid:28.0.1 AS base
 
-FROM alpine:3.20.3
+FROM alpine
 
 COPY --from=base /opt/druid/extensions/mysql-metadata-storage/mysql-metadata-storage-28.0.1.jar /tmp/extensions/mysql-metadata-storage/mysql-metadata-storage-28.0.1.jar
 COPY --from=base /opt/druid/conf /tmp/config/default-config
