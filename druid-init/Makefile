@@ -7,7 +7,6 @@ TAG        ?= $(shell git describe --exact-match --abbrev=0 2>/dev/null || echo 
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm64
 PLATFORM         ?= linux/$(subst x86_64,amd64,$(subst aarch64,arm64,$(shell uname -m)))
-ALPINE_VERSION	 ?= 3.20.3
 DRUID_VERSION    ?= 30.0.1
 VERSION          = $(TAG)_$(subst /,_,$(PLATFORM))
 MYSQL_CONNECTOR_VERSION ?= 5.1.49
@@ -38,7 +37,6 @@ container:
 	@rm -rf bin/.dockerfile;                                              \
 	sed                                                                   \
 	    -e 's|{DRUID_VERSION}|$(DRUID_VERSION)|g'       				  \
-		-e 's|{ALPINE_VERSION}|$(ALPINE_VERSION)|g'       				  \
 	    -e 's|{MYSQL_CONNECTOR_URL}|$(MYSQL_CONNECTOR_URL)|g'             \
 	    -e 's|{MYSQL_CONNECTOR_VERSION}|$(MYSQL_CONNECTOR_VERSION)|g'     \
 	    Dockerfile > bin/.dockerfile;                                     \
