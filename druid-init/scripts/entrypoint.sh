@@ -23,6 +23,7 @@ druid_operator_jvm_config_historicals="/tmp/config/operator-config/historicals.j
 druid_operator_jvm_config_middleManagers="/tmp/config/operator-config/middleManagers.jvm.config"
 druid_operator_jvm_config_brokers="/tmp/config/operator-config/brokers.jvm.config"
 druid_operator_jvm_config_routers="/tmp/config/operator-config/routers.jvm.config"
+druid_operator_jvm_config="/tmp/scripts/assets/jvm.config"
 
 # Set the directory where Druid Custom Configuration files are located
 druid_custom_config_common="/tmp/config/custom-config/common.runtime.properties"
@@ -53,8 +54,12 @@ druid_default_jvm_config_middleManagers="/tmp/config/default-config/druid/cluste
 druid_default_jvm_config_brokers="/tmp/config/default-config/druid/cluster/query/broker/jvm.config"
 druid_default_jvm_config_routers="/tmp/config/default-config/druid/cluster/query/router/jvm.config"
 
-druid_exporter_config_file_source="/tmp/scripts/metrics.json"
+druid_exporter_config_file_source="/tmp/scripts/assets/metrics.json"
 druid_exporter_config_file_destination="/opt/druid/conf/metrics.json"
+
+druid_operator_config_log4j2="/tmp/scripts/assets/log4j2.xml"
+druid_default_config_log4j2="/tmp/config/default-config/druid/cluster/_common/log4j2.xml"
+
 
 # Copies the files necessary for using 'mysql' as metadata storage in the apt directory
 function configure_mysql_metadata_storage() {
@@ -122,34 +127,40 @@ function update_jvm_config() {
   if [ -f "$druid_custom_jvm_config_coordinators" ]; then
     cp $druid_custom_jvm_config_coordinators $druid_default_jvm_config_coordinators_overlords
   else
-    cp $druid_operator_jvm_config_coordinators $druid_default_jvm_config_coordinators_overlords
+    cp $druid_operator_jvm_config $druid_default_jvm_config_coordinators_overlords
   fi
 
   if [ -f "$druid_custom_jvm_config_historicals" ]; then
     cp $druid_custom_jvm_config_historicals $druid_default_jvm_config_historicals
   else
-    cp $druid_operator_jvm_config_historicals $druid_default_jvm_config_historicals
+    cp $druid_operator_jvm_config $druid_default_jvm_config_historicals
   fi
 
   if [ -f "$druid_custom_jvm_config_brokers" ]; then
     cp $druid_custom_jvm_config_brokers $druid_default_jvm_config_brokers
   else
-    cp $druid_operator_jvm_config_brokers $druid_default_jvm_config_brokers
+    cp $druid_operator_jvm_config $druid_default_jvm_config_brokers
   fi
 
   if [ -f "$druid_custom_jvm_config_middleManagers" ]; then
     cp $druid_custom_jvm_config_middleManagers $druid_default_jvm_config_middleManagers
   else
-    cp $druid_operator_jvm_config_middleManagers $druid_default_jvm_config_middleManagers
+    cp $druid_operator_jvm_config $druid_default_jvm_config_middleManagers
   fi
 
   if [ -f "$druid_custom_jvm_config_routers" ]; then
     cp $druid_custom_jvm_config_routers $druid_default_jvm_config_routers
-  elif [ -f "$druid_operator_jvm_config_routers" ]; then
-    cp $druid_operator_jvm_config_routers $druid_default_jvm_config_routers
+  else
+    cp $druid_operator_jvm_config $druid_default_jvm_config_routers
   fi
 }
 update_jvm_config
+
+function configure_logs() {
+  rm -rf $druid_default_config_log4j2
+  cp $druid_operator_config_log4j2 $druid_default_config_log4j2
+}
+configure_logs
 
 function place_config_files() {
   cp -r $druid_config_dir_temp $druid_config_dir
