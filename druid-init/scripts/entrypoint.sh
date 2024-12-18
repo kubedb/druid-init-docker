@@ -58,7 +58,7 @@ druid_default_config_log4j2="/tmp/config/default-config/druid/cluster/_common/lo
 # Copies the files necessary for using 'mysql' as metadata storage in the apt directory
 function configure_mysql_metadata_storage() {
   cp -r /tmp/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar /opt/druid/extensions/mysql-metadata-storage/mysql-connector-java-5.1.49.jar
-  cp -r /tmp/extensions/mysql-metadata-storage/mysql-metadata-storage-30.0.1.jar /opt/druid/extensions/mysql-metadata-storage/mysql-metadata-storage-30.0.1.jar
+  cp -r /tmp/extensions/mysql-metadata-storage/mysql-metadata-storage-31.0.0.jar /opt/druid/extensions/mysql-metadata-storage/mysql-metadata-storage-31.0.0.jar
 }
 configure_mysql_metadata_storage
 
