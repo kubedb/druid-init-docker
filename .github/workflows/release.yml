@@ -30,7 +30,7 @@ jobs:
     needs: label-detector
     runs-on: "${{ needs.label-detector.outputs.runs-on }}"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v1
 
       - name: Print version info
         id: semver
