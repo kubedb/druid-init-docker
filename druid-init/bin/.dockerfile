@@ -21,6 +21,9 @@ RUN mkdir -p /opt/druid/conf
 RUN chown -R druid /opt/druid/conf
 RUN chown -R druid /tmp
 
+RUN chgrp -R 0 /tmp/config && \
+  chmod -R g=u /tmp/config
+
 USER 1000
 
 ENTRYPOINT ["/tmp/scripts/entrypoint.sh"]
