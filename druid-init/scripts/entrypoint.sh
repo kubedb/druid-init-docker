@@ -40,14 +40,14 @@ druid_custom_jvm_config_middleManagers="/tmp/config/custom-config/middleManagers
 druid_custom_jvm_config_brokers="/tmp/config/custom-config/brokers.jvm.config"
 druid_custom_jvm_config_routers="/tmp/config/custom-config/routers.jvm.config"
 
-# Set the directory where Druid Apply Configuration files are located
-druid_apply_config_common="/tmp/config/operator-config/apply-common.runtime.properties"
-druid_apply_config_coordinators="/tmp/config/operator-config/apply-coordinators.properties"
-druid_apply_config_overlords="/tmp/config/operator-config/apply-overlords.properties"
-druid_apply_config_historicals="/tmp/config/operator-config/apply-historicals.properties"
-druid_apply_config_middleManagers="/tmp/config/operator-config/apply-middleManagers.properties"
-druid_apply_config_brokers="/tmp/config/operator-config/apply-brokers.properties"
-druid_apply_config_routers="/tmp/config/operator-config/apply-routers.properties"
+# Set the directory where Druid inline Configuration files are located
+druid_inline_config_common="/tmp/config/operator-config/inline-common.runtime.properties"
+druid_inline_config_coordinators="/tmp/config/operator-config/inline-coordinators.properties"
+druid_inline_config_overlords="/tmp/config/operator-config/inline-overlords.properties"
+druid_inline_config_historicals="/tmp/config/operator-config/inline-historicals.properties"
+druid_inline_config_middleManagers="/tmp/config/operator-config/inline-middleManagers.properties"
+druid_inline_config_brokers="/tmp/config/operator-config/inline-brokers.properties"
+druid_inline_config_routers="/tmp/config/operator-config/inline-routers.properties"
 
 # Set the directory where Druid Default Configuration files are located
 druid_default_config_common="/tmp/config/default-config/druid/cluster/_common/common.runtime.properties"
@@ -126,15 +126,15 @@ function merge_default_and_custom_config() {
 }
 merge_default_and_custom_config
 
-# Merge apply config with default config and place in the default config
-function merge_default_and_apply_config() {
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_common $druid_default_config_common $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_coordinators $druid_default_config_coordinators_overlords $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_overlords $druid_default_config_coordinators_overlords $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_historicals $druid_default_config_historicals $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_middleManagers $druid_default_config_middleManagers $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_brokers $druid_default_config_brokers $druid_temp_merged_config
-  /tmp/scripts/merge_config_properties.sh $druid_apply_config_routers $druid_default_config_routers $druid_temp_merged_config
+# Merge inline config with default config and place in the default config
+function merge_default_and_inline_config() {
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_common $druid_default_config_common $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_coordinators $druid_default_config_coordinators_overlords $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_overlords $druid_default_config_coordinators_overlords $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_historicals $druid_default_config_historicals $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_middleManagers $druid_default_config_middleManagers $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_brokers $druid_default_config_brokers $druid_temp_merged_config
+  /tmp/scripts/merge_config_properties.sh $druid_inline_config_routers $druid_default_config_routers $druid_temp_merged_config
 
 
   remove_comments_and_sort $druid_default_config_common
@@ -144,7 +144,7 @@ function merge_default_and_apply_config() {
   remove_comments_and_sort $druid_default_config_brokers
   remove_comments_and_sort $druid_default_config_routers
 }
-merge_default_and_apply_config
+merge_default_and_inline_config
 
 function update_jvm_config() {
   rm -rf $druid_default_jvm_config_coordinators_overlords
