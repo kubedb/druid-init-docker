@@ -41,13 +41,13 @@ druid_custom_jvm_config_brokers="/tmp/config/custom-config/brokers.jvm.config"
 druid_custom_jvm_config_routers="/tmp/config/custom-config/routers.jvm.config"
 
 # Set the directory where Druid Apply Configuration files are located
-druid_apply_config_common="/tmp/config/operator-config/applyconfig.common.runtime.properties"
-druid_apply_config_coordinators="/tmp/config/operator-config/applyconfig.coordinators.properties"
-druid_apply_config_overlords="/tmp/config/operator-config/applyconfig.overlords.properties"
-druid_apply_config_historicals="/tmp/config/operator-config/applyconfig.historicals.properties"
-druid_apply_config_middleManagers="/tmp/config/operator-config/applyconfig.middleManagers.properties"
-druid_apply_config_brokers="/tmp/config/operator-config/applyconfig.brokers.properties"
-druid_apply_config_routers="/tmp/config/operator-config/applyconfig.routers.properties"
+druid_apply_config_common="/tmp/config/operator-config/apply-common.runtime.properties"
+druid_apply_config_coordinators="/tmp/config/operator-config/apply-coordinators.properties"
+druid_apply_config_overlords="/tmp/config/operator-config/apply-overlords.properties"
+druid_apply_config_historicals="/tmp/config/operator-config/apply-historicals.properties"
+druid_apply_config_middleManagers="/tmp/config/operator-config/apply-middleManagers.properties"
+druid_apply_config_brokers="/tmp/config/operator-config/apply-brokers.properties"
+druid_apply_config_routers="/tmp/config/operator-config/apply-routers.properties"
 
 # Set the directory where Druid Default Configuration files are located
 druid_default_config_common="/tmp/config/default-config/druid/cluster/_common/common.runtime.properties"
